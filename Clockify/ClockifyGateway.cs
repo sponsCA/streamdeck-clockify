@@ -55,6 +55,10 @@ public class ClockifyGateway
         {
             timeEntryRequest.ProjectId = _projectId;
         }
+        else
+        {
+            timeEntryRequest.ProjectId = await GetProjectIdFromLastSavedTimeEntry();
+        }
 
         await _clockifyClient.CreateTimeEntryAsync(_workspaceId, timeEntryRequest);
     }
@@ -227,12 +231,6 @@ public class ClockifyGateway
             return;
         }
 
-        var workspaces = await _clockifyClient.GetWorkspacesAsync();
-        if (!workspaces.IsSuccessful || workspaces.Data is null)
-        {
-            return;
-        }
-
         if (runningTimer == null)
         {
             return;
@@ -308,6 +306,24 @@ public class ClockifyGateway
 
         _projectName = projectName;
         return projectName;
+    }
+
+    private async Task<string> GetProjectIdFromLastSavedTimeEntry()
+    {
+        if (_clockifyClient is null || string.IsNullOrWhiteSpace(_workspaceId))
+        {
+            return null;
+        }
+
+        var timeEntries = await _clockifyClient.FindAllTimeEntriesForUserAsync(_workspaceId, _currentUser.Id, inProgress: false, pageSize: 1);
+        if (!timeEntries.IsSuccessful || timeEntries.Data is null)
+        {
+            return null;
+        }
+
+        var timeEntry = timeEntries.Data.SingleOrDefault();
+
+        return timeEntry?.ProjectId;
     }
 
     private async Task<bool> TestConnectionAsync()
