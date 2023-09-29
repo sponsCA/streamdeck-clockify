@@ -7,10 +7,9 @@ This plugin allows you to track, start and stop Clockify timers on your [Elgato 
 ## Fork changes
 
 I added 3 features
-- **Refresh rate** : Every 10 seconds instead of every second. I don't like poking an API each second. It's using a cache value to increment the second timer between each updates
 - **Total week time** : I wanted to have the total week logged time, so here it is.
 - **Total day time** : I wanted to have the current day logged time, so here it is.
-- **Current running timer project name** : if not projectName is set, then {projectName} will be the current running timer project name (if any).
+- **Current running timer project name** : if no projectName is set, then {projectName} will be the current running timer project name (if any).
 
 I removed (because I don't use it and didn't want to maintain it)
 - **Task name**
