@@ -292,15 +292,21 @@ public class ClockifyGateway
 
     private async Task<string> FindProjectName(string projectId)
     {
-        var projects = await _clockifyClient.FindProjectByIdAsync(_workspaceId, projectId);
-        if (!projects.IsSuccessful)
+        if (projectId == _projectId)
+        {
+            return _projectName;
+        }
+
+        var project = await _clockifyClient.FindProjectByIdAsync(_workspaceId, projectId);
+        if (!project.IsSuccessful)
         {
             return string.Empty;
         }
 
-        var serializedResponse = JObject.Parse(projects.Content);
+        var serializedResponse = JObject.Parse(project.Content);
         var projectName = serializedResponse["name"].ToString();
 
+        _projectName = projectName;
         return projectName;
     }
 
