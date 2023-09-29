@@ -4,12 +4,22 @@
 
 This plugin allows you to track, start and stop Clockify timers on your [Elgato Stream Deck](https://www.elgato.com/en/stream-deck).
 
-## Fork new features
+## Fork changes
 
-I added 3 features :
+I added 3 features
 - **Refresh rate** : Every 10 seconds instead of every second. I don't like poking an API each second. It's using a cache value to increment the second timer between each updates
 - **Total week time** : I wanted to have the total week logged time, so here it is.
 - **Total day time** : I wanted to have the current day logged time, so here it is.
+- **Current running timer project name** : if not projectName is set, then {projectName} will be the current running timer project name (if any).
+
+I removed (because I don't use it and didn't want to maintain it)
+- **Task name**
+- **Timer name**
+- **Client name**
+
+I optimized
+- **Refresh rate** : Every 10 seconds instead of every second. I don't like poking an API each second. It's using a cache value to increment the second timer between each updates
+- **Clockify gateway** : cache the workspaceId and the projectId to avoid calling the API each time we need it.
 
 ## Download
 
@@ -22,16 +32,12 @@ You can download a copy from the [GitHub release pages](https://github.com/spons
   - **API Key:** *(required)* Provide your 48 characters long [Clockify API Key](https://clockify.me/user/settings), which is required for the plugin to work
   - **Workspace Name:** *(required)* Write the name of the workspace you want to run/track timers in
   - **Project Name:** *(optional)* Provide the name of an existing project to run/track a timer for
-  - **Task Name:** *(optional)* Set the name of the project specific task
-  - **Timer Name:** *(optional)* Specify a name for the timer you want to run/track
   - **Show week time:** *(optional)* False by default. If true, the timer value will be the total week time, and clicking on it will update it.
   - **Show current day time:** *(optional)* False by default. If true, the timer value will be the current day time, and clicking on it will update.
 - **Advanced**
   - **Title Format:** *(optional)* Specify the format for the title to be displayed on the button.
     - This can include any of:
       - `{projectName}` : The project name
-      - `{taskName}` : The task name 
-      - `{timerName}` : The timer name 
       - `{timer}` : The current timer value when running. Blank when not running
   - **Server Url:** *(required)* Change from the *default* URL to the API URL of your own/company instance
 
@@ -49,11 +55,9 @@ https://user-images.githubusercontent.com/920861/132741561-6f9f3ff0-a920-408d-82
   - Make sure you synchronize your clock with a time server
 
 ## Credits
-
-- Feel free to star this repository and follow me on [Twitter](https://twitter.com/DarkCisum)
+- Feel free to star this repository
+- Thanks to eXpl0it3r for making the [original plugin](https://github.com/eXpl0it3r/streamdeck-clockify)
 - Thanks to [Bar Raiders](https://barraider.com/) for the great tooling and community
-- Shout-out to [Hugh Macdonald](https://github.com/HughMacdonald) for adding the text formatting feature!
-- Took some inspirations from the [Toggl plugin](https://github.com/tobimori/streamdeck-toggl)
 - Using a CC0 licensed [Timer image](https://www.svgrepo.com/svg/23258/timer) for the Time Tracking category
 - Talking to Clockify with the [Clockify.Net](https://github.com/Morasiu/Clockify.Net) library
 - And thanks to [Clockify](https://clockify.me/) for providing an excellent time tracking tool for free
