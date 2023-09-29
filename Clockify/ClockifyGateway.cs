@@ -20,6 +20,7 @@ public class ClockifyGateway
 
     private string _workspaceId = string.Empty;
     private string _projectId = string.Empty;
+    private string _projectName = string.Empty;
 
     public bool IsValid()
     {
@@ -80,7 +81,7 @@ public class ClockifyGateway
 
         timeEntry = timeEntries.Data.FirstOrDefault(t => t.ProjectId == _projectId);
 
-        return new RunningTimer(timeEntry, timeEntry?.ProjectId, timeEntry != null ? await FindProjectName(timeEntry.ProjectId) : null);
+        return new RunningTimer(timeEntry, timeEntry?.ProjectId, timeEntry != null ? _projectName : null);
     }
 
     public async Task<int?> GetCurrentWeekTotalTimeAsync()
@@ -208,7 +209,7 @@ public class ClockifyGateway
         }
 
         await UpdateWorkspaceId(settings.WorkspaceName);
-        await UpdateProjectId(settings.ProjectName);
+        await UpdateProjectValues(settings.ProjectName);
 
         if (await TestConnectionAsync())
         {
@@ -263,7 +264,7 @@ public class ClockifyGateway
         _workspaceId = workspace.Id;
     }
 
-    private async Task UpdateProjectId(string projectName)
+    private async Task UpdateProjectValues(string projectName)
     {
         var projects = await _clockifyClient.FindAllProjectsOnWorkspaceAsync(_workspaceId, false, projectName, pageSize: 5000);
         if (!projects.IsSuccessful || projects.Data is null)
@@ -285,6 +286,7 @@ public class ClockifyGateway
             return;
         }
 
+        _projectName = projectName;
         _projectId = project.Single().Id;
     }
 
