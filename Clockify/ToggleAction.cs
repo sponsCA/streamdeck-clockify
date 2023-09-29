@@ -214,7 +214,7 @@ public class ToggleAction : KeypadBase
         if (!string.IsNullOrEmpty(_settings.TitleFormat))
         {
             return _settings.TitleFormat
-                .Replace("{projectName}", projectName != null ? GetFirstWord(projectName) : string.Empty)
+                .Replace("{projectName}", projectName != null ? FormatProjectName(projectName) : string.Empty)
                 .Replace("{timer}", timerTime);
         }
 
@@ -228,15 +228,30 @@ public class ToggleAction : KeypadBase
         return timerText;
     }
 
-    private static string GetFirstWord(string input)
+    /// <summary>
+    /// Remove everything after the first space
+    /// </summary>
+    private static string FormatProjectName(string input)
     {
         if (string.IsNullOrEmpty(input))
         {
             return string.Empty;
         }
 
-        var words = input.Split(' ');
-        return words[0];
+        var firstWord = input.Split(' ')[0];
+
+        if (firstWord.Length < 10)
+        {
+            return firstWord;
+        }
+
+        var index = firstWord.IndexOf('-');
+        if (index != -1)
+        {
+            firstWord = firstWord.Insert(index + 1, "\n");
+        }
+
+        return firstWord;
     }
 
     private void ResetCachedValues()
