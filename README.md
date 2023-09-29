@@ -10,6 +10,7 @@ I added 3 features
 - **Total week time** : I wanted to have the total week logged time, so here it is.
 - **Total day time** : I wanted to have the current day logged time, so here it is.
 - **Current running timer project name** : if no projectName is set, then {projectName} will be the current running timer project name (if any).
+- **Set Project to last saved time entry project** : if no projectName is set, then toggling a timer will set the project to the last saved time entry project
 
 I removed (because I don't use it and didn't want to maintain it)
 - **Task name**
